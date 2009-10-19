@@ -1,0 +1,16 @@
+= RubyBHL
+
+A very simple Ruby hook to the BHL API at http://www.biodiversitylibrary.org/openurlhelp.aspx.
+
+== Install 
+
+  gem install mjy-rubyBHL --source http://gems.github.com
+
+== Usage
+
+See tests.
+
+== Todo
+
+Lots.
+
