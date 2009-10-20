@@ -4,7 +4,7 @@ A very simple Ruby hook to the BHL API at http://www.biodiversitylibrary.org/ope
 
 == Install 
 
-  gem install mjy-rubyBHL --source http://gems.github.com
+Download the gem and cd to rubyBHL.  Then 'rake install'.  You'll also need the json gem from http://code.google.com/p/rubyjson/.
 
 == Usage
 

@@ -89,6 +89,14 @@ module RubyBHL
    return nil if !citation_index
    fetch(OCR_url(citation_index))
  end
+
+ # Since the API doesn't return a link to the OCR we screen scrape it the URL
+ def OCR_url(citation_index)
+   Net::HTTP.get_response(URI.parse(@citations[citation_index]["Url"])).body =~ /http:\/\/.*?\.txt/
+   return $& # the matched results
+ end
+
+ protected
  
  # from the ruby doc
  def fetch(uri_string, limit = 10)
@@ -103,12 +111,7 @@ module RubyBHL
      response.error!
     end
   end
-
- # Since the API doesn't return a link to the OCR we screen scrape it the URL
- def OCR_url(citation_index)
-   Net::HTTP.get_response(URI.parse(@citations[citation_index]["Url"])).body =~ /http:\/\/.*?\.txt/
-   return $& # the matched results
- end
+ 
 
 end
 

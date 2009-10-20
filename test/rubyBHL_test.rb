@@ -29,8 +29,14 @@ class RubyBHLTest < Test::Unit::TestCase
   
   def test_response_with_citations_is_returned
    # this is a crummy test, we need a reference to the status codes.
-   @bhl = RubyBHL::Rbhl.new(:params => {:title => "Manual of North American Diptera"}) # should match nothing, I hope
+   @bhl = RubyBHL::Rbhl.new(:params => {:title => "Manual of North American Diptera"}) 
    assert @bhl.json_data["citations"].size > 0
+  end
+
+  def test_OCR_text_scraping
+    @bhl = RubyBHL::Rbhl.new(:params => {:title => "Manual of North American Diptera"}) 
+    assert @bhl.OCR_text(0).size > 0
+    assert @bhl.OCR_text(0) =~ /Diptera/ 
   end
 
 end
