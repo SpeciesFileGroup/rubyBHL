@@ -4,19 +4,22 @@ A very simple Ruby hook to the BHL API at http://www.biodiversitylibrary.org/ope
 
 == Install 
 
-Source is on github, gem is on gemcutter.
+Source is on github, gem is on gemcutter (http://gemcutter.org/gems/rubyBHL).
 
   gem install rubyBHL
 
 If you don't alread have it you also need the json gem (http://code.google.com/p/rubyjson/)
  
- gem install json.
+ gem install json
 
 == Usage
 
 See tests.
 
-  @bhl = RubyBHL::Rbhl.new(:params => {:title => "Manual of North American Diptera"}) 
+ include RubyBHL
+
+ @bhl = Rbhl.new() # an empty object
+ @bhl = Rbhl.new(:params => {:title => "Manual of North American Diptera"})
 
 :params include those listed under the OpenURL 0.1 column on the BHL API page.
 
@@ -24,3 +27,6 @@ See tests.
 
 Lots.
 
+== Other
+
+See also the Python version at http://github.com/anarchivist/pybhl
