@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
 
   gem.description = %q{Hook to the Biodiversity Heritage Library API plus some screen scraping for OCR.}
   gem.summary = %q{Hook to the Biodiversity Heritage Library API plus some screen scraping for OCR.}
-  gem.homepage = 'http://github.com/mjy/rubyBHL'
+  gem.homepage = 'http://github.com/SpeciesFileGroup/rubyBHL'
 
   gem.license       = "University of Illinois/NCSA Open Source License (NCSA)"
 

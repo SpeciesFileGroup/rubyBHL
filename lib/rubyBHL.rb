@@ -1,30 +1,53 @@
-module RubyBHL
+# encoding: UTF-8
 
-require 'net/http'
-require 'json/add/rails'
-# require 'json'
+recent_ruby = RUBY_VERSION >= '2.0.0'
+raise "IMPORTANT:  gem requires ruby >= 2.0.0" unless recent_ruby
 
-require File.expand_path(File.join(File.dirname(__FILE__), '../lib/Request'))
+require_relative 'rubyBHL/request'
+require_relative 'rubyBHL/response'
 
-class RbhlError < StandardError
-end
+class RubyBHL
 
-class Rbhl
-  attr_accessor :opt
-  
-  def initialize(options = {}) 
-    # initialize once use many?
-    @opt = {
-      :openurl_version => '0.1',
-    }.merge!(options)  
- end
+  DEFAULT_TMP_DIR = "/tmp"
 
- def openURLRequest(options = {})
-   opt = {:params => {}}.merge(@opt).merge(options)
+  def self.quick_request(options)
+    opts = {
 
-   Request.new(opt)
- end
+    }.merge!(options)
+
+    request = RubyBHL::Request.new(options)
+    request.response
+  end
 
 end
 
-end
+# module RubyBHL
+
+# require 'net/http'
+# require 'json/add/rails'
+# # require 'json'
+
+
+
+# class RbhlError < StandardError
+# end
+
+# class Rbhl
+#   attr_accessor :opt
+#   
+#   def initialize(options = {}) 
+#     # initialize once use many?
+#     @opt = {
+#       :openurl_version => '0.1',
+#     }.merge!(options)  
+#  end
+
+#  def openURLRequest(options = {})
+#    opt = {:params => {}}.merge(@opt).merge(options)
+
+#    Request.new(opt)
+#  end
+
+# end
+
+# end

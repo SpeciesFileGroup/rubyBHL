@@ -3,3 +3,4 @@ doc
 Manifest
 *~
 *.swp
+.bhl_api_key

@@ -2,37 +2,43 @@
 
 A very simple Ruby hook to the BHL API at http://www.biodiversitylibrary.org/openurlhelp.aspx.
 
-== Install 
-
-Source is on github, gem is on gemcutter (http://gemcutter.org/gems/rubyBHL).
+== Really quick start 
 
   gem install rubyBHL
 
-If you don't alread have it you also need the json gem (http://code.google.com/p/rubyjson/)
- 
- gem install json
+Get a key (http://www.biodiversitylibrary.org/getapikey.aspx). Add it to .bhl_api_key in the directory of your script or irb window.
 
-== Usage
+  require 'rubyBHL'
+  RubyBHL.quick_request()       # =>  {    }
+  RubyBHL.quick_request( {  } ) # => 
 
-See tests.
+== API Key
 
- include RubyBHL
+You need a BHL key from http://www.biodiversitylibrary.org/getapikey.aspx. Then do *one* of the following:
 
- @bhl = Rbhl.new() # an empty object
- @bhl = Rbhl.new(:params => {:title => "Manual of North American Diptera"})
+1) Add it to a file called '.bhl_api_key' that is located in your scripts directory
 
-:params include those listed under the OpenURL 0.1 column on the BHL API page.
+2) Set a constant:
 
-== Todo
+   RubyBHL::BHL_API_KEY = 'your_key'
 
-Lots.
+3) TODO: Set an environment variable called BHL_API_KEY when you call your script.
+
+4) TODO: Set a the BHL_API_KEY in your .bash profile.
+
+== Requests
+
+
+== Responses
+
+
+== Contributing
+
+Fork the repo, hack, submit a pull request.
 
 == Acknowledgements
 
-Katja Seltmann provided code and requirements for the original incarnation of the gem.
+Katja Seltmann provided code and requirements for the original incarnation of the gem.  The general pattern for this gem, including some baseline tests, is pilfered from dwc-archive by Dmitry Motzerin. Mx A. Matienzo (@anarchivist) wrote a Python translation of the original version, and inspired a different architecture from the original (http://github.com/anarchivist/pybhl).
 
-== Other
-
-See also the Python version at http://github.com/anarchivist/pybhl
 
 

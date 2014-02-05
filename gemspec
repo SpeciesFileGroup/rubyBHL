@@ -1,5 +1,5 @@
 
-require File.expand_path('../lib/rubyBHL/version', __FILE__)
+require File.expand_path('../lib/RubyBHL/version', __FILE__)
 
 
 Gem::Specification.new do |gem|
@@ -37,7 +37,7 @@ end
 
 Gem::Specification.new do |gem|
   gem.name = %q{rubyBHL}
-  gem.version = rubyBHL::VERSION # "0.1.0"
+  gem.version = RubyBHL::VERSION # "0.1.0"
   gem.required_rubygems_version = Gem::Requirement.new(">= 1.2") if gem.respond_to? :required_rubygems_version=
   gem.authors = ["Matt Yoder"]
   gem.date = %q{2009-10-19}

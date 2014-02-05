@@ -1,4 +1,6 @@
-class Request
+
+# Target API http://www.biodiversitylibrary.org/api2/docs/docs.html
+class RubyBHL::Request
  
   # some notes   
   # http://www.biodiversitylibrary.org/openurl?url_ver=Z39.88-2004&ctx_ver=Z39.88-2004 
@@ -23,12 +25,12 @@ class Request
   # rft_id=info:lccn/XXXX
   # rft_id=http://www.biodiversitylibrary.org/bibliography/XXXX
   # rft_id=http://www.biodiversitylibrary.org/page/XXXX
- 
-  require File.expand_path(File.join(File.dirname(__FILE__), '../lib/Response'))
+
+  # require File.expand_path(File.join(File.dirname(__FILE__), '../lib/**/*.rb'))
  
   FORMAT = 'json'
  
-   ROOT_URL = 'http://www.biodiversitylibrary.org'
+  ROOT_URL = 'http://www.biodiversitylibrary.org'
  
   # see http://docs.google.com/Doc?id=dgvjvvkz_1x5qbm3 for the Name Services
   NAME_SEARCH_URL = "#{ROOT_URL}/services/name/NameService.ashx"
