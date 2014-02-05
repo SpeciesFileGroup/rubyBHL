@@ -4,27 +4,28 @@ A very simple Ruby hook to the BHL API at http://www.biodiversitylibrary.org/ope
 
 == Really quick start 
 
+Add your key (http://www.biodiversitylibrary.org/getapikey.aspx) to <em>~/.bhl_api_key</em>.
+
   gem install rubyBHL
 
-Get a key (http://www.biodiversitylibrary.org/getapikey.aspx). Add it to .bhl_api_key in the directory of your script or irb window.
-
   require 'rubyBHL'
-  RubyBHL.quick_request()       # =>  {    }
-  RubyBHL.quick_request( {  } ) # => 
+  RubyBHL.quick_request() # => {"Status":"ok","ErrorMessage":null,"Result":[]}
 
 == API Key
 
-You need a BHL key from http://www.biodiversitylibrary.org/getapikey.aspx. Then do *one* of the following:
+You need a BHL key from http://www.biodiversitylibrary.org/getapikey.aspx. Do one of: 
 
-1) Add it to a file called '~/.bhl_api_key'. 
+1) Add it to the file <em>~/.bhl_api_key</em>. 
 
-2) Set a constant:
+2) Add it to the file _.env_ in the root of your application: 
+  BHL_API_KEY=sekret_key_here
 
-   RubyBHL::BHL_API_KEY = 'your_key'
+3) Set BHL_API_KEY in your shell profile.
 
-3) TODO: Set an environment variable called BHL_API_KEY when you call your script.
+4) Pass it explicitly to your request:
+   RubyBHL::Request.new(api_key: '123_343_etc')  
 
-4) TODO: Set a the BHL_API_KEY in your .bash profile.
+If the key is set in multiple places priority is reverse order listed here.
 
 == Requests
 

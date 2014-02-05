@@ -10,11 +10,12 @@ class RubyBHL
 
   #DEFAULT_TMP_DIR = "/tmp"
   
-
   def self.quick_request(options)
     opts = {
+      name: 'blorf',
+      method: :NameSearch
     }.merge!(options)
-    request = RubyBHL::Request.new(options)
+    request = RubyBHL::Request.new(opts)
     request.response
   end
 

@@ -1,5 +1,5 @@
 class RubyBHL
-  
+
   API_KEY_FILE_PATH = File.expand_path("~/.bhl_api_key")
   key = nil
   key = File.read(API_KEY_FILE_PATH).strip if File.exists?(API_KEY_FILE_PATH)
@@ -12,84 +12,87 @@ class RubyBHL
 
   # Target API http://www.biodiversitylibrary.org/api2/docs/docs.html
   class RubyBHL::Request
+    BASE_URL = 'http://www.biodiversitylibrary.org'
+    API_VERSION = 'api2'  
+    INTERFACE = 'httpquery.ashx?'
+    FORMAT = 'json'
+    SEARCH_BASE = [BASE_URL, API_VERSION, INTERFACE].join("/") 
+    
+    METHODS = { 
+      AuthorSearch: %w{name},
+      BookSearch: %w{title lname volume edition year subject language collectionid}, 
+      GetAuthorParts: %w{creatorid}, 
+      GetAuthorTitles: %w{creatorid},  
+      GetCollections: %w{},        # no params
+      GetItemByIdentifier: %w{type value}, 
+      GetItemMetadata: %w{itemid pages oc parts}, 
+      GetItemPages: %w{itemid ocr}, 
+      GetItemParts: %w{itemid}, 
+      GetLanguages: %w{},          # no params
+      GetPageMetadata: %w{pageid ocr names}, 
+      GetPageNames: %w{pageid}, 
+      GetPageOcrText: %w{pageid}, 
+      GetPartBibTeX: %w{partid}, 
+      GetPartByIdentifier: %w{type value}, 
+      GetPartEndNote: %w{partid}, 
+      GetPartMetadata: %w{partid}, 
+      GetPartNames: %w{partid}, 
+      GetSubjectParts: %w{subject}, 
+      GetSubjectTitles: %w{subject}, 
+      GetTitleBibTex: %w{titleid}, 
+      GetTitleByIdentifier: %w{type value}, 
+      GetTitleEndNote: %w{titleid}, 
+      GetTitleItems: %w{titleid}, 
+      GetTitleMetadata: %w{titleid items}, 
+      GetUnpublishedItems: %w{},      # No params 
+      GetUnpublishedParts: %w{},      # No params 
+      GetUnpublishedTitles: %w{},     # No params 
+      NameCount: %w{startdate enddate}, 
+      NameGetDetail: %w{namebankid name},            # !! Not in list below part of V1, see || criteria
+      NameCountBetweenDates: %w{},          # !! No documentation provided
+      NameGetDetailForName: %w{},           # !! No documentation provided
+      NameGetDetailForNameBankID: %w{},     # !! No documentation provided
+      NameList: %w{startrow batchsize stardate enddate},   # part of V1 !! may be problems
+      NameListBetweenDates: %w{}, # !! No documentation provided 
+      NameSearch: %w{name},                                # part of V1 !! may be problems
+      PartSearch: %w{title containerTitle author date volume series issue}, 
+      SubjectSearch: %w{subject}, 
+      TitleSearchSimple: %w{title}, 
+    }
 
-    attr_reader :api_key
+
+    attr_reader :params, :method, :format, :api_key, :search_url
 
     def initialize(options = {})
       opts = {
         api_key: RubyBHL::API_KEY,
+        format:  RubyBHL::Request::FORMAT,
+        method:  :NameSearch,
+        params: { }
       }.merge!(options)
 
-      @api_key = opts[:api_key]
-      raise API_KEY_MESSAGE if @api_key.nil?
+      assign_and_validate_options(opts)
+      build_url
     end
 
-    # some notes   
-    # http://www.biodiversitylibrary.org/openurl?url_ver=Z39.88-2004&ctx_ver=Z39.88-2004 
-    # rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook
-    # rft.btitle
-    # rft.jtitle
-    # rft.au
-    # rft.aufirst
-    # rft.aulast
-    # rft.publisher
-    # rft.pub
-    # rft.place
-    # rft.date
-    # rft.issn
-    # rft.isbn
-    # rft.coden
-    # rft.stitle
-    # rft.volume
-    # rft.issue
-    # rft.spage
-    # rft_id=info:oclcnum/XXXX
-    # rft_id=info:lccn/XXXX
-    # rft_id=http://www.biodiversitylibrary.org/bibliography/XXXX
-    # rft_id=http://www.biodiversitylibrary.org/page/XXXX
+    def assign_and_validate_options(opts)
+      @api_key = opts[:api_key]
+      raise API_KEY_MESSAGE if @api_key.nil?
 
-    # require File.expand_path(File.join(File.dirname(__FILE__), '../lib/**/*.rb'))
+      @method = opts[:method]
+      raise "Method #{@method} not recognized." if @method && !RubyBHL::Request::METHODS.keys.include?(@method)
 
-    FORMAT = 'json'
+      @format = opts[:format]
+      raise "Format #{@format} not recognized." if @format && !%w{json xml}.include?(@format)
 
-    ROOT_URL = 'http://www.biodiversitylibrary.org'
+      # TODO: check params against method
+      @params = opts[:params]
+    end
 
-    # see http://docs.google.com/Doc?id=dgvjvvkz_1x5qbm3 for the Name Services
-    NAME_SEARCH_URL = "#{ROOT_URL}/services/name/NameService.ashx"
-    SEARCH_URL =  "#{ROOT_URL}/openurl?" 
-
-    STABLE_URLS = [:subject, :creator, :title, :item, :page]
-
-    VALID_PARAMS = {'0.1' => [
-      :title,
-      :au,
-      :aufirst,
-      :aulast,
-      :publisher,
-      :date,
-      :issn,
-      :isbn,
-      :coden,
-      :stitle,
-      :volume,
-      :issue,
-      :spage]}
-
-    attr :search_url
-
-    def init(options = {}) 
-      @opt = {
-      }.merge!(options)
-
-      # check for legal parameters
-      @opt[:params].keys.each do |p|
-        raise RbhlError, "#{p} is not a valid parameter" if !VALID_PARAMS[@opt[:openurl_version]].include?(p)
-      end 
-
-      @search_url = SEARCH_URL + 
-        @opt[:params].keys.sort{|a,b| a.to_s <=> b.to_s}.collect{|k| "#{k}=#{@opt[:params][k].gsub(/\s/, "+")}"}.join("&") +
-      '&format=' + @opt[:format]       
-
+    def build_url
+      @search_url = SEARCH_BASE + 
+        @params.keys.sort{|a,b| a.to_s <=> b.to_s}.collect{|k| "#{k}=#{opts[:params][k].gsub(/\s/, "+")}"}.join("&") +
+      '&format=' + @format
     end
 
     # from the ruby doc
@@ -106,9 +109,9 @@ class RubyBHL
       end
     end
 
-    def get_response
-      Response.new(self)
-    end
+ #  def get_response
+ #    Response.new(self)
+ #  end
 
   end
-  end
+end
