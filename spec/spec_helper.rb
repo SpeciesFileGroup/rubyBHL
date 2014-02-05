@@ -1,8 +1,8 @@
 # require 'coveralls'
 # Coveralls.wear!
 
-require 'rubyBHL' 
-require 'rspec'
+# require 'rubyBHL' 
+# require 'rspec'
 # require 'rspec/mocks'
 # require 'socket'
 

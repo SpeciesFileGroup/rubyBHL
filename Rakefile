@@ -1,18 +1,9 @@
-# # follows Bate's screencast 135
+require "bundler/gem_tasks"
+require 'rspec/core/rake_task'
 
-# require 'rubygems'
-# require 'rake'
-# require 'echoe'
+RSpec::Core::RakeTask.new(:spec) do |spec|
+  spec.pattern = 'spec/**/*_spec.rb'
+end
 
-# Echoe.new('rubyBHL', '0.1.0') do |p|
-#   p.description = "Hook to the Biodiversity Heritage Library API plus some screen scraping for OCR."
-#   p.url = "http://github.com/mjy/rubyBHL"
-#   p.author = "Yoder & Seltmann"
-#   p.email = "diapriid@gmail.com"
-#   p.ignore_pattern = ["tmp/*", "script/*"]
-#   p.development_dependencies = []
-# end
-
-# Dir["#{File.dirname(__FILE__)}/tasks/*.rake"].sort.each {|ext| load ext}
-
-    
+task :default => :spec
+   

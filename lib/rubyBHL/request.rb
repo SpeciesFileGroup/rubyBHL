@@ -88,5 +88,4 @@ class RubyBHL::Request
     Response.new(self)
   end
 
-
 end
