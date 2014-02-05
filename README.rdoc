@@ -16,7 +16,7 @@ Get a key (http://www.biodiversitylibrary.org/getapikey.aspx). Add it to .bhl_ap
 
 You need a BHL key from http://www.biodiversitylibrary.org/getapikey.aspx. Then do *one* of the following:
 
-1) Add it to a file called '.bhl_api_key' that is located in your scripts directory
+1) Add it to a file called '~/.bhl_api_key'. 
 
 2) Set a constant:
 

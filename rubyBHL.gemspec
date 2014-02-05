@@ -25,6 +25,8 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rspec', '~> 2.14'
   gem.add_development_dependency 'debugger', '~> 1.6'
   gem.add_development_dependency 'git', '~> 1.2'
+  gem.add_development_dependency 'dotenv'
+
 
  #gem.date = %q{2009-10-19}
  #gem.extra_rdoc_files = ["README.rdoc", "lib/rubyBHL.rb"]

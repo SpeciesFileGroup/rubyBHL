@@ -8,13 +8,12 @@ require_relative 'rubyBHL/response'
 
 class RubyBHL
 
-  DEFAULT_TMP_DIR = "/tmp"
+  #DEFAULT_TMP_DIR = "/tmp"
+  
 
   def self.quick_request(options)
     opts = {
-
     }.merge!(options)
-
     request = RubyBHL::Request.new(options)
     request.response
   end
