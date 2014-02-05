@@ -1,7 +1,7 @@
 require File.expand_path('../lib/rubyBHL/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.name = 'rubyBHL'
+  gem.name = 'RubyBHL'
   gem.version = RubyBHL::VERSION #"0.1.0
   gem.authors = ["Matt Yoder"]
   gem.email = %q{diapriid@gmail.com}
@@ -14,9 +14,8 @@ Gem::Specification.new do |gem|
 
   gem.required_rubygems_version = Gem::Requirement.new(">= 1.2") if gem.respond_to? :required_rubygems_version=
 
-  gem.files         = `git ls-files`.split($/)
-  # gem.files = ["Manifest", "README.rdoc", "Rakefile", "init.rb", "lib/rubyBHL.rb", "test/helper.rb", "test/rubyBHL_test.rb", "rubyBHL.gemspec"]
-  gem.test_files =  gem.files.grep(%r{^(test|spec|features)/}) #  ["test/rubyBHL_test.rb"]
+  gem.files         = `git ls-files`.split($/) # be sure to commit!
+  gem.test_files =  gem.files.grep(%r{^(spec|features)/}) 
   gem.require_paths = ["lib"]
 
   gem.add_runtime_dependency 'json', '~> 1.8'

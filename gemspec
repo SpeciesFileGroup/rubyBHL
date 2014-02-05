@@ -4,7 +4,7 @@ require File.expand_path('../lib/RubyBHL/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.name          = "dwc-archive"
-  gem.version       = rubyBHL::VERSION
+  gem.version       = RubyBHL::VERSION
   gem.authors       = ["Dmitry Mozzherin"]
   gem.email         = ["dmozzherin at gmail dot com"]
   gem.description   = %q{Darwin Core Archive is the current standard exchange 
@@ -36,7 +36,7 @@ end
 
 
 Gem::Specification.new do |gem|
-  gem.name = %q{rubyBHL}
+  gem.name = %q{RubyBHL}
   gem.version = RubyBHL::VERSION # "0.1.0"
   gem.required_rubygems_version = Gem::Requirement.new(">= 1.2") if gem.respond_to? :required_rubygems_version=
   gem.authors = ["Matt Yoder"]
