@@ -27,6 +27,12 @@ See tests.
 
 Lots.
 
+== Acknowledgements
+
+Katja Seltmann provided code and requirements for the original incarnation of the gem.
+
 == Other
 
 See also the Python version at http://github.com/anarchivist/pybhl
+
+

@@ -1,31 +1,46 @@
-# -*- encoding: utf-8 -*-
+require File.expand_path('../lib/rubyBHL/version', __FILE__)
 
-Gem::Specification.new do |s|
-  s.name = %q{rubyBHL}
-  s.version = "0.1.0"
+Gem::Specification.new do |gem|
+  gem.name = 'rubyBHL'
+  gem.version = RubyBHL::VERSION #"0.1.0
+  gem.authors = ["Matt Yoder"]
+  gem.email = %q{diapriid@gmail.com}
 
-  s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Yoder & Seltmann"]
-  s.date = %q{2009-10-19}
-  s.description = %q{Hook to the Biodiversity Heritage Library API plus some screen scraping for OCR.}
-  s.email = %q{diapriid@gmail.com}
-  s.extra_rdoc_files = ["README.rdoc", "lib/rubyBHL.rb"]
-  s.files = ["Manifest", "README.rdoc", "Rakefile", "init.rb", "lib/rubyBHL.rb", "test/helper.rb", "test/rubyBHL_test.rb", "rubyBHL.gemspec"]
-  s.homepage = %q{http://github.com/mjy/rubyBHL}
-  s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "rubyBHL", "--main", "README.rdoc"]
-  s.require_paths = ["lib"]
-  s.rubyforge_project = %q{rubybhl}
-  s.rubygems_version = %q{1.3.5}
-  s.summary = %q{Hook to the Biodiversity Heritage Library API plus some screen scraping for OCR.}
-  s.test_files = ["test/rubyBHL_test.rb"]
+  gem.description = %q{Hook to the Biodiversity Heritage Library API plus some screen scraping for OCR.}
+  gem.summary = %q{Hook to the Biodiversity Heritage Library API plus some screen scraping for OCR.}
+  gem.homepage = 'http://github.com/mjy/rubyBHL'
 
-  if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-    s.specification_version = 3
+  gem.license       = "Not yet determined, will be either MIT or University of Illinois/NCSA Open Source License."
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-    else
-    end
-  else
-  end
+  gem.required_rubygems_version = Gem::Requirement.new(">= 1.2") if gem.respond_to? :required_rubygems_version=
+
+  gem.files         = `git ls-files`.split($/)
+  # gem.files = ["Manifest", "README.rdoc", "Rakefile", "init.rb", "lib/rubyBHL.rb", "test/helper.rb", "test/rubyBHL_test.rb", "rubyBHL.gemspec"]
+  gem.test_files =  gem.files.grep(%r{^(test|spec|features)/}) #  ["test/rubyBHL_test.rb"]
+  gem.require_paths = ["lib"]
+
+  gem.add_runtime_dependency 'json', '~> 1.8'
+  
+  gem.add_development_dependency 'rake', '~> 10.1'
+  gem.add_development_dependency 'rake', '~> 10.1'
+  gem.add_development_dependency 'bundler', '~> 1.3'
+  gem.add_development_dependency 'rspec', '~> 2.14'
+  gem.add_development_dependency 'debugger', '~> 1.6'
+  gem.add_development_dependency 'git', '~> 1.2'
+
+ #gem.date = %q{2009-10-19}
+ #gem.extra_rdoc_files = ["README.rdoc", "lib/rubyBHL.rb"]
+ #gem.rdoc_options = ["--line-numbers", "--inline-source", "--title", "rubyBHL", "--main", "README.rdoc"]
+ #gem.rubyforge_project = %q{rubybhl}
+ #gem.rubygems_version = %q{1.3.5}
+
+ #if gem.respond_to? :specification_version then
+ #  current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
+ #  s.specification_version = 3
+
+ #  if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+ #  else
+ #  end
+ #else
+ #end
 end
