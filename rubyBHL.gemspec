@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.summary = %q{Hook to the Biodiversity Heritage Library API plus some screen scraping for OCR.}
   gem.homepage = 'http://github.com/mjy/rubyBHL'
 
-  gem.license       = "Not yet determined, will be either MIT or University of Illinois/NCSA Open Source License."
+  gem.license       = "University of Illinois/NCSA Open Source License (NCSA)"
 
   gem.required_rubygems_version = Gem::Requirement.new(">= 1.2") if gem.respond_to? :required_rubygems_version=
 
@@ -21,7 +21,6 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency 'json', '~> 1.8'
   
-  gem.add_development_dependency 'rake', '~> 10.1'
   gem.add_development_dependency 'rake', '~> 10.1'
   gem.add_development_dependency 'bundler', '~> 1.3'
   gem.add_development_dependency 'rspec', '~> 2.14'
