@@ -1,11 +1,8 @@
 
-
-
 class RubyBHL
 
   class Response
     attr_reader :json
-    # attr_reader(:citations)
 
     def initialize(options = {}) 
       opts = {
@@ -16,11 +13,14 @@ class RubyBHL
 
       @json = {}
       @json = JSON.parse(Net::HTTP.get_response(URI.parse(opts[:request].search_url)).body)
-
-      # @citations = @json_data['citations'] if @json_data['Status'] == 1 # a simpler reference
     end
 
-  # # from the ruby doc
+  end
+end
+
+
+# Crud from 0.1.0
+#   # # from the ruby doc
   # def fetch(uri_string, limit = 10)
   #   return nil if !uri_string
   #   limit = 10 # Justin Case we get in some redirect loop
@@ -45,6 +45,3 @@ class RubyBHL
   #   Net::HTTP.get_response(URI.parse(@citations[citation_index]["Url"])).body =~ /http:\/\/.*?\.txt/
   #   return $& # the matched results
   # end
-
-  end
-end

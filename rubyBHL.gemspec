@@ -6,17 +6,16 @@ Gem::Specification.new do |gem|
   gem.authors = ["Matt Yoder"]
   gem.email = %q{diapriid@gmail.com}
 
-  gem.description = %q{Hook to the Biodiversity Heritage Library API plus some screen scraping for OCR.}
-  gem.summary = %q{Hook to the Biodiversity Heritage Library API plus some screen scraping for OCR.}
+  gem.description = %q{RubyBHL is a simple but flexible request/response wrapper for the Biodiversity Heritage Libary API.  It includes (some) validation for request formatting.  It has excellent unit-test coverage.}
+  gem.summary = %q{RubyBHL is a simple request/response wrapper for the Biodiversity Heritage Libary API.}
   gem.homepage = 'http://github.com/SpeciesFileGroup/rubyBHL'
-
-  gem.license       = "University of Illinois/NCSA Open Source License (NCSA)"
-
-  gem.required_rubygems_version = Gem::Requirement.new(">= 1.2") if gem.respond_to? :required_rubygems_version=
+  gem.license = "University of Illinois/NCSA Open Source License (NCSA)"
 
   gem.files         = `git ls-files`.split($/) # be sure to commit!
   gem.test_files =  gem.files.grep(%r{^(spec|features)/}) 
   gem.require_paths = ["lib"]
+
+  gem.required_ruby_version = '~> 2.0'
 
   gem.add_runtime_dependency 'json', '~> 1.8'
   gem.add_runtime_dependency 'dotenv'
@@ -27,21 +26,4 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'debugger', '~> 1.6'
   gem.add_development_dependency 'git', '~> 1.2'
   gem.add_development_dependency 'dotenv'
-
-
- #gem.date = %q{2009-10-19}
- #gem.extra_rdoc_files = ["README.rdoc", "lib/rubyBHL.rb"]
- #gem.rdoc_options = ["--line-numbers", "--inline-source", "--title", "rubyBHL", "--main", "README.rdoc"]
- #gem.rubyforge_project = %q{rubybhl}
- #gem.rubygems_version = %q{1.3.5}
-
- #if gem.respond_to? :specification_version then
- #  current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
- #  s.specification_version = 3
-
- #  if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
- #  else
- #  end
- #else
- #end
 end

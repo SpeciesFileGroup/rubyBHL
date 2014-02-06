@@ -1,6 +1,6 @@
 = RubyBHL
 
-A very simple Ruby hook to the BHL API at http://www.biodiversitylibrary.org/openurlhelp.aspx.
+A simple Ruby wrapper to the BHL API at http://www.biodiversitylibrary.org/openurlhelp.aspx.
 
 == Really quick start 
 
@@ -29,17 +29,74 @@ If the key is set in multiple places priority is reverse order listed here.
 
 == Requests
 
+Construct one all at once:
+
+  r = RubyBHL::Request.new(method: :TitleSearch, params: {'title' => 'Dark and Storm Night'}, format: 'xml', api_key: 'top_sekret_key')
+
+Build it piece by piece if you need to
+
+  r = RubyBHL::Request.new()   # => => #<RubyBHL::Request:0x0000010189bf28 @api_key="1e285c8c-dee8-4ad0-b48e-a5ca8ef008c5", @method=:NameSearch, @format="json", @params={}>  
+
+The method defaults to :NameSearch
+
+  r.method                           #  => :NameSearch 
+  r.method = :TitleSearchSimple      #  => :TitleSearchSimple
+
+Parameters are passed as a hash, keys are strings:
+
+  r.params = {'title' => 'Hen in the Foxhouse.'}   # => {"title"=>"Hen in the Foxhouse."} 
+
+Format is one of `xml` or `json` (default):
+
+  r.format = 'xml'                   # => "xml"
+
+It's possible to set your API key per request: 
+
+  r.api_key = 'top_sekret_key'       #  => "top_sekret_key" 
+
+Test that your params are supported:
+
+  r.params = {'foo' => 'bar'}        #  => {"foo"=>"bar"} 
+  r.params_are_supported?    # => false
+
+Test that method has the required params?
+
+  r.params = {}                      # => {} 
+  r.method = :NameSearch             # => :NameSearch 
+  r.has_required_params?             # false => false
+  r.params = {'name' => "Yeti"}      # => {"name"=>"Yeti"} 
+  r.has_required_params?             # => true 
+
+Test the overall validity of the present request:
+
+  r.valid?   # => true
+
+Return the search_url: 
+
+  r.search_url   # => "http://www.biodiversitylibrary.org/api2/httpquery.ashx?op=NameSearch&name=Yeti&format=xml&apikey=top_sekret_key"
+
+Get a response
+
+ r.response  # #<RubyBHL::Response: ... >
 
 == Responses
 
+Require a RubyBHL::Request:
+
+  request = RubyBHL::Request.new(params: {'name' => 'blorf'})
+  response = RubyBHL::Response.new(request: request)
+
+Get the json:
+
+  response.json  # => {"Status"=>"ok", "ErrorMessage"=>nil, "Result"=>[]}
 
 == Contributing
 
-Fork the repo, hack, submit a pull request.
+Fork the repo, hack, test, submit a pull request.
 
 == Acknowledgements
 
-Katja Seltmann provided code and requirements for the original incarnation of the gem.  The general pattern for this gem, including some baseline tests, is pilfered from dwc-archive by Dmitry Motzerin. Mx A. Matienzo (@anarchivist) wrote a Python translation of the original version, and inspired a different architecture from the original (http://github.com/anarchivist/pybhl).
+Katja Seltmann provided code and requirements for the original incarnation of the gem.  The general pattern for this gem, including some baseline tests, is pilfered from dwc-archive by Dmitry Motzerin. Mx A. Matienzo (@anarchivist) wrote a Python translation of the original version, and inspired the different architecture used now (http://github.com/anarchivist/pybhl).
 
 
 

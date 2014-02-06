@@ -62,6 +62,12 @@ describe RubyBHL::Request do
         @r.params = {'name' => 'bar'}
         expect(@r.valid?).to be_true
       end
+
+      it 'replaces spaces with plus in params' do
+       @r.params = {'name' => 'Aus bus'}
+       expect(@r.search_url =~ /\s/).to_not be_true
+      end
+
     end
 
     describe 'API keys' do

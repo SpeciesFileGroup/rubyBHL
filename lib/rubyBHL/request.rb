@@ -17,7 +17,7 @@ class RubyBHL
     INTERFACE = 'httpquery.ashx?'
     FORMAT = 'json'
     SEARCH_BASE = [BASE_URL, API_VERSION, INTERFACE].join("/") 
-    
+
     METHODS = { 
       AuthorSearch: %w{name},
       BookSearch: %w{title lname volume edition year subject language collectionid}, 
@@ -60,28 +60,31 @@ class RubyBHL
       TitleSearchSimple: %w{title}, 
     }
 
-    # TODO: finish this 
     REQUIRED_PARAMS = {
       'name' => [:AuthorSearch, :NameSearch],
       'creatorid' => [:GetAuthorParts, :GetAuthorTitles],
       'type' => [:GetItemByIdentifier, :GetPartByIdentifier, :GetTitleByIdentifier],
       'value' => [:GetItemByIdentifier, :GetPartByIdentifier, :GetTitleByIdentifier],
-      'itemid' => [:GetItemMetadata, :GetItemPages, :GetItemParts]
+      'itemid' => [:GetItemMetadata, :GetItemPages, :GetItemParts],
+      'pageid' => [:GetPageMetadata, :GetPageNames, :GetPageOcrText, :GetPartBibTeX],
+      'partid'  => [:GetPartBibTeX, :GetPartEndNote, :GetPartMetadata, :GetPartNames],
+      'subject' => [:GetSubjectParts, :GetSubjectTitles, :SubjectSearch],
+      'titleid' => [:GetTitleBibTex, :GetTitleEndNote, :GetTitleItems, :GetTitleMetadata],
+      'title' => [:TitleSearchSimple] 
     }
 
+    mrp = {}
+    REQUIRED_PARAMS.each do |k,v|
+      v.each do |m|
+        mrp[m].push(k) if mrp[m] 
+        mrp[m] ||= [k]
+      end
+    end
 
-     METHODS_REQUIRED_PARAMS = {}
-     mrp = {}
-     REQUIRED_PARAMS.each do |k,v|
-       v.each do |m|
-         mrp[m].push(k) if mrp[m] 
-         mrp[m] ||= [k]
-       end
-     end
+    METHODS_REQUIRED_PARAMS = mrp
 
-     METHODS_REQUIRED_PARAMS = mrp
-
-    attr_accessor :params, :method, :format, :api_key, :search_url
+    attr_accessor :params, :method, :format, :api_key
+    attr_reader :search_url
 
     def initialize(options = {})
       opts = {
@@ -102,38 +105,45 @@ class RubyBHL
       @params = opts[:params]
     end
 
+    def search_url
+      build_url
+      @search_url
+    end
+
+    def response
+      build_url
+      if valid?
+        Response.new(request: self)
+      else
+        false # raise?
+      end
+    end
+
+    def params_are_supported? 
+      return false if @method.nil?
+      @params.keys - METHODS[@method] == []
+    end
+
+    def has_required_params?
+      return false if @method.nil?
+      METHODS_REQUIRED_PARAMS[@method].select{|v| !@params.keys.include?(v)} == []
+    end
+
+    def valid?
+      raise API_KEY_MESSAGE if @api_key.nil?
+      raise "Method #{@method} not recognized." if @method && !RubyBHL::Request::METHODS.keys.include?(@method)
+      raise "Format #{@format} not recognized." if @format && !%w{json xml}.include?(@format)
+
+      !@method.nil? && !@format.nil? && params_are_supported? && has_required_params?
+    end
+
+    private 
+
     def build_url
       @search_url = SEARCH_BASE + 'op=' + @method.to_s +
         @params.keys.sort{|a,b| a.to_s <=> b.to_s}.collect{|k| "&#{k}=#{@params[k].gsub(/\s/, "+")}"}.join +
       '&format=' + @format + '&apikey=' + @api_key
     end
-
-   def response
-     build_url
-     if valid?
-       Response.new(request: self)
-     else
-       false # raise?
-     end
-   end
-
-   def params_are_supported? 
-     return false if @method.nil?
-     @params.keys - METHODS[@method] == []
-   end
-
-   def has_required_params?
-     return false if @method.nil?
-     METHODS_REQUIRED_PARAMS[@method].select{|v| !@params.keys.include?(v)} == []
-   end
-
-   def valid?
-     raise API_KEY_MESSAGE if @api_key.nil?
-     raise "Method #{@method} not recognized." if @method && !RubyBHL::Request::METHODS.keys.include?(@method)
-     raise "Format #{@format} not recognized." if @format && !%w{json xml}.include?(@format)
-
-     !@method.nil? && !@format.nil? && params_are_supported? && has_required_params?
-   end
 
   end
 end
