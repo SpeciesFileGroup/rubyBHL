@@ -92,16 +92,27 @@ Get the json:
 
   response.json  # => {"Status"=>"ok", "ErrorMessage"=>nil, "Result"=>[]}
 
-== Mining
+== Mining 
 
-Everything here is kinda hackish so far.
+Just some examples at present.
 
 For a taxon name, and a list of "attributes", generate a CSV table with one page per row, and 0 (absent) or 1 (present) for each "attribute".  You can limit the number of pages returned.
 
+  require 'rubyBHL'
   r = RubyBHL::Mine.taxon_attribute_table('Apis melifera', ['honey', 'disease', 'parasite'], 5)   
   # => "honey\tdisease\tparasite\tPageID\n0\t0\t0\t15995011\n0\t0\t0\t16445239\n0\t0\t0\t27274823\n0\t0\t0\t18188723\n0\t0\t0\t37765472\n1\t0\t0\t34216230\n1\t0\t1\t31898980\n0\t0\t1\t32014594\n0\t0\t0\t32014638\n1\t1\t0\t32015159\n"  
   CSV.parse(r, col_sep: "\t")
-   # => [["honey", "disease", "parasite", "PageID"], ["0", "0", "0", "15995011"], ["0", "0", "0", "16445239"], ["0", "0", "0", "27274823"], ["0", "0", "0", "18188723"], ["0", "0", "0", "37765472"], ["1", "0", "0", "34216230"], ["1", "0", "1", "31898980"], ["0", "0", "1", "32014594"], ["0", "0", "0", "32014638"], ["1", "1", "0", "32015159"]]
+   # => [["honey", "disease", "parasite", "PageID"],
+        ["0", "0", "0", "15995011"], 
+        ["0", "0", "0", "16445239"],
+        ["0", "0", "0", "27274823"],
+        ["0", "0", "0", "18188723"],
+        ["0", "0", "0", "37765472"],
+        ["1", "0", "0", "34216230"],
+        ["1", "0", "1", "31898980"],
+        ["0", "0", "1", "32014594"],
+        ["0", "0", "0", "32014638"],
+        ["1", "1", "0", "32015159"]]
    # ... \<clickity\> R-stats \</clickity\>  
 
 == Contributing
