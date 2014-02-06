@@ -20,7 +20,7 @@ class RubyBHL
         pages[0..page_limit - 1].each do |p|
           result = []
           ocr = RubyBHL::Request.new(method: :GetPageOcrText, params: {'pageid' => p['PageID']}).response.json['Result']
-          result.push bit_vector_for_keywords(ocr, attributes)
+          result += bit_vector_for_keywords(ocr, attributes)
           result.push p['PageID']
           csv << [*result]
         end
