@@ -57,7 +57,7 @@ It's possible to set your API key per request:
 Test that your params are supported:
 
   r.params = {'foo' => 'bar'}        #  => {"foo"=>"bar"} 
-  r.params_are_supported?    # => false
+  r.params_are_supported?            # => false
 
 Test that method has the required params?
 
@@ -96,7 +96,7 @@ Fork the repo, hack, test, submit a pull request.
 
 == Acknowledgements
 
-Katja Seltmann provided code and requirements for the original incarnation of the gem.  The general pattern for this gem, including some baseline tests, is pilfered from dwc-archive by Dmitry Motzerin. Mx A. Matienzo (@anarchivist) wrote a Python translation of the original version, and inspired the different architecture used now (http://github.com/anarchivist/pybhl).
+Katja Seltmann provided code and requirements for the original incarnation of the gem.  The general pattern for this gem, including some baseline tests, is pilfered from dwc-archive by Dmitry Motzerin. Mx A. Matienzo (@anarchivist) wrote a Python translation of the original version, and inspired the different architecture used now (http://github.com/anarchivist/pybhl).  Thanks BHL for being awesome!
 
 
 
