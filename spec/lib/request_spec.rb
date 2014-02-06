@@ -17,7 +17,7 @@ describe RubyBHL::Request do
     end
 
     it 'knows the API methods' do
-      expect(RubyBHL::Request::METHODS).to have(39).things
+      expect(RubyBHL::Request::METHODS).to have(37).things
     end
 
     it 'has a base URL' do

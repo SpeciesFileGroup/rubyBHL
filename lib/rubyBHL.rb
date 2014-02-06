@@ -8,6 +8,7 @@ require 'net/http'
 
 require_relative 'rubyBHL/request'
 require_relative 'rubyBHL/response'
+require_relative 'rubyBHL/mine'
 
 class RubyBHL
 

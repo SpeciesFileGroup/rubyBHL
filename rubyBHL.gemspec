@@ -26,4 +26,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'debugger', '~> 1.6'
   gem.add_development_dependency 'git', '~> 1.2'
   gem.add_development_dependency 'dotenv'
+  gem.add_development_dependency 'awesome_print', '~> 1.2'
+
 end

@@ -49,9 +49,9 @@ class RubyBHL
       GetUnpublishedTitles: %w{},     # No params 
       NameCount: %w{startdate enddate}, 
       NameGetDetail: %w{namebankid name},            # !! Not in list below part of V1, see || criteria
-      NameCountBetweenDates: %w{},          # !! No documentation provided
-      NameGetDetailForName: %w{},           # !! No documentation provided
-      NameGetDetailForNameBankID: %w{},     # !! No documentation provided
+      NameCountBetweenDates: %w{},                   # !! No documentation provided
+     # NameGetDetailForName: %w{},                   # !! No documentation provided, can't confirm it works
+     # NameGetDetailForNameBankID: %w{},             # !! No documentation provided, can't confirm it works
       NameList: %w{startrow batchsize stardate enddate},   # part of V1 !! may be problems
       NameListBetweenDates: %w{}, # !! No documentation provided 
       NameSearch: %w{name},                                # part of V1 !! may be problems
@@ -121,11 +121,13 @@ class RubyBHL
 
     def params_are_supported? 
       return false if @method.nil?
+      return true if METHODS[@method] == []
       @params.keys - METHODS[@method] == []
     end
 
     def has_required_params?
       return false if @method.nil?
+      return true if METHODS_REQUIRED_PARAMS[@method].nil?
       METHODS_REQUIRED_PARAMS[@method].select{|v| !@params.keys.include?(v)} == []
     end
 
@@ -141,7 +143,7 @@ class RubyBHL
 
     def build_url
       @search_url = SEARCH_BASE + 'op=' + @method.to_s +
-        @params.keys.sort{|a,b| a.to_s <=> b.to_s}.collect{|k| "&#{k}=#{@params[k].gsub(/\s/, "+")}"}.join +
+        @params.keys.sort{|a,b| a.to_s <=> b.to_s}.collect{|k| "&#{k}=#{@params[k].to_s.gsub(/\s/, "+")}"}.join +
       '&format=' + @format + '&apikey=' + @api_key
     end
 

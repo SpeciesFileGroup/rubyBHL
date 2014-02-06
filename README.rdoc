@@ -98,9 +98,9 @@ Fork the repo, hack, test, submit a pull request.
 
 == Acknowledgements
 
-Katja Seltmann provided code and requirements for the original incarnation of the gem.  The general pattern for this gem, including some baseline tests, is pilfered from dwc-archive by Dmitry Mozzherin. Mx A. Matienzo (@anarchivist) wrote a Python translation of the original version, and inspired the different architecture used now (http://github.com/anarchivist/pybhl).  Thanks BHL for being awesome!
+Katja Seltmann provided code and requirements for the original incarnation of the gem.  The general pattern for this gem, including some baseline tests, is pilfered from dwc-archive by Dmitry Mozzherin. Mx A. Matienzo (@anarchivist) wrote a {Python translation of the original version}[http://www.biodiversitylibrary.org/api2/docs/docs.html], and inspired the different architecture used now.  Thanks BHL for being awesome!
 
 == License
 
-Open, it's NCSA. See LICENSE and http://opensource.org/licenses/NCSA.
+Open, NCSA[http://opensource.org/licenses/NCSA]. See LICENSE.
 

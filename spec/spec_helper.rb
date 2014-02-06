@@ -5,6 +5,7 @@ require 'dotenv'
 Dotenv.load
 
 require 'rubyBHL' 
+require 'awesome_print'
 # require 'rspec'
 # require 'rspec/mocks'
 # require 'socket'
