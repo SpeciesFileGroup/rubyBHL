@@ -60,8 +60,28 @@ class RubyBHL
       TitleSearchSimple: %w{title}, 
     }
 
+    # TODO: finish this 
+    REQUIRED_PARAMS = {
+      'name' => [:AuthorSearch, :NameSearch],
+      'creatorid' => [:GetAuthorParts, :GetAuthorTitles],
+      'type' => [:GetItemByIdentifier, :GetPartByIdentifier, :GetTitleByIdentifier],
+      'value' => [:GetItemByIdentifier, :GetPartByIdentifier, :GetTitleByIdentifier],
+      'itemid' => [:GetItemMetadata, :GetItemPages, :GetItemParts]
+    }
 
-    attr_reader :params, :method, :format, :api_key, :search_url
+
+     METHODS_REQUIRED_PARAMS = {}
+     mrp = {}
+     REQUIRED_PARAMS.each do |k,v|
+       v.each do |m|
+         mrp[m].push(k) if mrp[m] 
+         mrp[m] ||= [k]
+       end
+     end
+
+     METHODS_REQUIRED_PARAMS = mrp
+
+    attr_accessor :params, :method, :format, :api_key, :search_url
 
     def initialize(options = {})
       opts = {
@@ -71,47 +91,49 @@ class RubyBHL
         params: { }
       }.merge!(options)
 
-      assign_and_validate_options(opts)
-      build_url
+      assign_options(opts)
+      build_url if valid?
     end
 
-    def assign_and_validate_options(opts)
+    def assign_options(opts)
       @api_key = opts[:api_key]
-      raise API_KEY_MESSAGE if @api_key.nil?
-
       @method = opts[:method]
-      raise "Method #{@method} not recognized." if @method && !RubyBHL::Request::METHODS.keys.include?(@method)
-
       @format = opts[:format]
-      raise "Format #{@format} not recognized." if @format && !%w{json xml}.include?(@format)
-
-      # TODO: check params against method
       @params = opts[:params]
     end
 
     def build_url
-      @search_url = SEARCH_BASE + 
-        @params.keys.sort{|a,b| a.to_s <=> b.to_s}.collect{|k| "#{k}=#{opts[:params][k].gsub(/\s/, "+")}"}.join("&") +
-      '&format=' + @format
+      @search_url = SEARCH_BASE + 'op=' + @method.to_s +
+        @params.keys.sort{|a,b| a.to_s <=> b.to_s}.collect{|k| "&#{k}=#{@params[k].gsub(/\s/, "+")}"}.join +
+      '&format=' + @format + '&apikey=' + @api_key
     end
 
-    # from the ruby doc
-    def fetch(uri_string, limit = 10)
-      return nil if !uri_string
-      limit = 10 # Justin Case we get in some redirect loop
-      raise RbhlError, 'HTTP redirect too deep' if limit == 0 # should tweak
-      response = Net::HTTP.get_response(URI.parse(uri_string))
-      case response
-      when Net::HTTPSuccess then response.body
-      when Net::HTTPRedirection then fetch(response['location'], limit - 1)
-      else
-        response.error!
-      end
-    end
+   def response
+     build_url
+     if valid?
+       Response.new(request: self)
+     else
+       false # raise?
+     end
+   end
 
- #  def get_response
- #    Response.new(self)
- #  end
+   def params_are_supported? 
+     return false if @method.nil?
+     @params.keys - METHODS[@method] == []
+   end
+
+   def has_required_params?
+     return false if @method.nil?
+     METHODS_REQUIRED_PARAMS[@method].select{|v| !@params.keys.include?(v)} == []
+   end
+
+   def valid?
+     raise API_KEY_MESSAGE if @api_key.nil?
+     raise "Method #{@method} not recognized." if @method && !RubyBHL::Request::METHODS.keys.include?(@method)
+     raise "Format #{@format} not recognized." if @format && !%w{json xml}.include?(@format)
+
+     !@method.nil? && !@format.nil? && params_are_supported? && has_required_params?
+   end
 
   end
 end

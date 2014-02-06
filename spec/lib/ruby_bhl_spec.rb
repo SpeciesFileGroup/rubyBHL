@@ -19,9 +19,22 @@ describe RubyBHL do
     expect(RubyBHL::API_KEY_FILE_PATH).to eq( File.expand_path("~/.bhl_api_key") )
   end
 
-  it 'has a `quick_request`' do
-    expect(RubyBHL.public_methods.include?(:quick_request)).to be_true
+  describe '`quick_request`' do
+    it 'exists as a class method' do
+      expect(RubyBHL.public_methods.include?(:quick_request)).to be_true
+    end
+
+    it 'responds with a RubyBHL::Response' do
+      expect(RubyBHL.quick_request().class).to eq(RubyBHL::Response) 
+    end
+
+    it 'makes a Net::HTTP request, and turns it into json' do
+      expect(RubyBHL.quick_request().json).to eq({"Status"=>"ok", "ErrorMessage"=>nil, "Result"=>[]}) 
+    end
+
   end
+
+
 
 
 end
