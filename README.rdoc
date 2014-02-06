@@ -36,7 +36,7 @@ Construct one all at once:
 Build it piece by piece if you need to
 
   r = RubyBHL::Request.new()   # => #<RubyBHL::Request:0x0000010189bf28
-                                      @api_key="1e285c8c-dee8-4ad0-b48e-a5ca8ef008c5", 
+                                      @api_key="mumble_commited_key_mumble", 
                                       @method=:NameSearch, @format="json", @params={}>  
 
 The method defaults to :NameSearch
@@ -113,7 +113,7 @@ For a taxon name, and a list of "attributes", generate a CSV table with one page
         ["0", "0", "1", "32014594"],
         ["0", "0", "0", "32014638"],
         ["1", "1", "0", "32015159"]]
-   # ... \<clickity\> R-stats \</clickity\>  
+   # ... <clickity> R-stats </clickity>  
 
 == Contributing
 
