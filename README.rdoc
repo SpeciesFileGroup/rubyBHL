@@ -1,6 +1,6 @@
 = RubyBHL
 
-A simple Ruby wrapper to the BHL API at http://www.biodiversitylibrary.org/openurlhelp.aspx.
+A simple Ruby wrapper to {version 2.5.x of the BHL API}[http://www.biodiversitylibrary.org/api2/docs/docs.html]. 
 
 == Really quick start 
 
@@ -35,7 +35,9 @@ Construct one all at once:
 
 Build it piece by piece if you need to
 
-  r = RubyBHL::Request.new()   # => => #<RubyBHL::Request:0x0000010189bf28 @api_key="1e285c8c-dee8-4ad0-b48e-a5ca8ef008c5", @method=:NameSearch, @format="json", @params={}>  
+  r = RubyBHL::Request.new()   # => #<RubyBHL::Request:0x0000010189bf28
+                                      @api_key="1e285c8c-dee8-4ad0-b48e-a5ca8ef008c5", 
+                                      @method=:NameSearch, @format="json", @params={}>  
 
 The method defaults to :NameSearch
 
@@ -77,7 +79,7 @@ Return the search_url:
 
 Get a response
 
- r.response  # #<RubyBHL::Response: ... >
+ r.response      # =>  #<RubyBHL::Response: ... >
 
 == Responses
 
