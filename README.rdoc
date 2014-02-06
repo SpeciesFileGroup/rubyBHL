@@ -98,5 +98,7 @@ Fork the repo, hack, test, submit a pull request.
 
 Katja Seltmann provided code and requirements for the original incarnation of the gem.  The general pattern for this gem, including some baseline tests, is pilfered from dwc-archive by Dmitry Motzerin. Mx A. Matienzo (@anarchivist) wrote a Python translation of the original version, and inspired the different architecture used now (http://github.com/anarchivist/pybhl).  Thanks BHL for being awesome!
 
+== License
 
+Open, it's NCSA. See LICENSE and http://opensource.org/licenses/NCSA.
 
