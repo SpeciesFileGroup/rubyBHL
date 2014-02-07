@@ -1,7 +1,7 @@
 require File.expand_path('../lib/rubyBHL/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.name = 'RubyBHL'
+  gem.name = 'rubyBHL'
   gem.version = RubyBHL::VERSION #"0.1.0
   gem.authors = ["Matt Yoder"]
   gem.email = %q{diapriid@gmail.com}
