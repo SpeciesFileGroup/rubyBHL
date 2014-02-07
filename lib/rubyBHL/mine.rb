@@ -28,7 +28,7 @@ class RubyBHL
       csv
     end
 
-    # return an Array of 0 or 1 given the presence or absence of each keyword in the text
+    # Return an Array of 0 or 1 given the presence or absence of each keyword in the text.
     def self.bit_vector_for_keywords(text = "", keywords = [])
       keywords.inject([]) {|ary, k| ary.push(text =~ /#{k}/ ? 1 : 0) }
     end 

@@ -36,7 +36,7 @@ Construct one all at once:
 Build it piece by piece if you need to
 
   r = RubyBHL::Request.new()   # => #<RubyBHL::Request:0x0000010189bf28
-                                      @api_key="mumble_commited_key_mumble", 
+                                      @api_key="redacted_secret_key", 
                                       @method=:NameSearch, @format="json", @params={}>  
 
 The method defaults to :NameSearch
