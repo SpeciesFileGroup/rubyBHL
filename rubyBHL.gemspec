@@ -17,15 +17,14 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = '~> 2.0'
 
-  gem.add_runtime_dependency 'json', '~> 1.8'
-  gem.add_runtime_dependency 'dotenv'
+  gem.add_runtime_dependency 'json', '~> 2.2'
+  gem.add_dependency 'dotenv', '~> 2.7'
 
-  gem.add_development_dependency 'rake', '~> 10.1'
-  gem.add_development_dependency 'bundler', '~> 1.3'
-  gem.add_development_dependency 'rspec', '~> 2.14'
-  gem.add_development_dependency 'debugger', '~> 1.6'
-  gem.add_development_dependency 'git', '~> 1.2'
-  gem.add_development_dependency 'dotenv'
+  gem.add_development_dependency 'rake', '~> 12.3.2'
+  gem.add_development_dependency 'bundler', '~> 2.0'
+  gem.add_development_dependency 'rspec', '~> 3.8.0'
+  gem.add_development_dependency 'byebug'
+  gem.add_development_dependency 'git', '~> 1.5'
   gem.add_development_dependency 'awesome_print', '~> 1.2'
 
 end

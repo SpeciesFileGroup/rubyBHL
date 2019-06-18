@@ -8,26 +8,21 @@ describe RubyBHL::Request do
       expect(RubyBHL::Request::FORMAT).to eq('json')
     end
 
-    it 'uses API version 2' do
-      expect(RubyBHL::Request::API_VERSION).to eq('api2')
-    end
-
-    it 'uses the http interface' do
-      expect(RubyBHL::Request::INTERFACE).to eq('httpquery.ashx?')
+    it 'uses API version 3' do
+      expect(RubyBHL::Request::API_VERSION).to eq('api3')
     end
 
     it 'knows the API methods' do
-      expect(RubyBHL::Request::METHODS).to have(37).things
+      expect(RubyBHL::Request::METHODS.keys.count).to eq(16)
     end
 
     it 'has a base URL' do
-      expect(RubyBHL::Request::BASE_URL).to eq('http://www.biodiversitylibrary.org')
+      expect(RubyBHL::Request::BASE_URL).to eq('https://www.biodiversitylibrary.org')
     end
 
     it 'has a SEARCH_BASE' do
-      expect(RubyBHL::Request::SEARCH_BASE).to eq('http://www.biodiversitylibrary.org/api2/httpquery.ashx?')
+      expect(RubyBHL::Request::SEARCH_BASE).to eq('https://www.biodiversitylibrary.org/api3?')
     end
-
 
     describe 'search_url' do
       before(:each) {
@@ -36,36 +31,36 @@ describe RubyBHL::Request do
 
       it 'can validate that "foo" is not a supported param for :NameSearch `params_are_supported?`' do
         @r.params = {'foo' => 'bar'}
-        expect(@r.params_are_supported?).to be_false
+        expect(@r.params_are_supported?).to be_falsey
       end
 
       it 'can validate that "name" is a supported param for :NameSearch `params_are_supported?`' do
         @r.params = {"name" => 'bar'}
-        expect(@r.params_are_supported?).to be_true
+        expect(@r.params_are_supported?).to be_truthy
       end
 
       it 'can validate that required params are not present with `has_required_params?`' do
         @r.params = {'foo' => 'bar'}
-        expect(@r.has_required_params?).to be_false
+        expect(@r.has_required_params?).to be_falsey
       end
 
       it 'can validate that required params are present with `has_required_params?`' do
         @r.params = {'name' => 'bar'}
-        expect(@r.has_required_params?).to be_true
+        expect(@r.has_required_params?).to be_truthy
       end
 
       it 'can be invalidated with `valid?`' do
-        expect(@r.valid?).to be_false
+        expect(@r.valid?).to be_falsey
       end
 
       it 'can be validated with `valid?`' do
         @r.params = {'name' => 'bar'}
-        expect(@r.valid?).to be_true
+        expect(@r.valid?).to be_truthy
       end
 
       it 'replaces spaces with plus in params' do
        @r.params = {'name' => 'Aus bus'}
-       expect(@r.search_url =~ /\s/).to_not be_true
+       expect(@r.search_url =~ /\s/).to_not be_truthy
       end
 
     end
@@ -76,7 +71,7 @@ describe RubyBHL::Request do
       end
 
       it 'are required' do
-        expect{RubyBHL::Request.new(api_key: nil)}.to raise_error
+        expect{RubyBHL::Request.new(api_key: nil)}.to raise_error RubyBHL::Error
       end
 
       it "can come from `ENV['BHL_API_KEY']`" do
@@ -85,9 +80,9 @@ describe RubyBHL::Request do
 
       it 'can come from `~/.bhl_api_key`' do
         if File.exists?(RubyBHL::API_KEY_FILE_PATH)
-          expect(RubyBHL::Request.new()).to be_true
+          expect(RubyBHL::Request.new()).to be_truthy
         else
-          expect{RubyBHL::Request.new()}.to raise_error, API_KEY_MESSAGE
+          expect{RubyBHL::Request.new()}.to raise_error RubyBHL::Error, API_KEY_MESSAGE
         end
       end
 

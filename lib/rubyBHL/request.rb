@@ -10,64 +10,42 @@ class RubyBHL
 
   warn "\n\n !! API key not set in ~/.bhl_api_key, .env, or ENV.  You must pass requests an :api_key. !! \n\n"  if API_KEY.nil? || API_KEY == 'sekret_key_here'
 
-  # Target API http://www.biodiversitylibrary.org/api2/docs/docs.html
+  # Target API https://www.biodiversitylibrary.org/api3
   class RubyBHL::Request
-    BASE_URL = 'http://www.biodiversitylibrary.org'
-    API_VERSION = 'api2'  
-    INTERFACE = 'httpquery.ashx?'
+    BASE_URL = 'https://www.biodiversitylibrary.org'
+    API_VERSION = 'api3'
     FORMAT = 'json'
-    SEARCH_BASE = [BASE_URL, API_VERSION, INTERFACE].join("/") 
+    SEARCH_BASE = [BASE_URL, API_VERSION].join("/") + '?'
 
     METHODS = { 
-      AuthorSearch: %w{name},
-      BookSearch: %w{title lname volume edition year subject language collectionid}, 
-      GetAuthorParts: %w{creatorid}, 
-      GetAuthorTitles: %w{creatorid},  
-      GetCollections: %w{},        # no params
-      GetItemByIdentifier: %w{type value}, 
-      GetItemMetadata: %w{itemid pages oc parts}, 
-      GetItemPages: %w{itemid ocr}, 
-      GetItemParts: %w{itemid}, 
-      GetLanguages: %w{},          # no params
+      AuthorSearch: %w{authorname},
+      GetAuthorMetadata: %w{id idtype pubs},
+      GetCollections: %w{},   # no params
+      GetInstitutions: %w{},  # no params
+      GetItemMetadata: %w{id idtype pages ocr parts},
+      GetLanguages: %w{},     # no params
+      GetNameMetadata: %w{name idtype id}, # either name or idtype + id is required
       GetPageMetadata: %w{pageid ocr names}, 
-      GetPageNames: %w{pageid}, 
-      GetPageOcrText: %w{pageid}, 
-      GetPartBibTeX: %w{partid}, 
-      GetPartByIdentifier: %w{type value}, 
-      GetPartEndNote: %w{partid}, 
-      GetPartMetadata: %w{partid}, 
-      GetPartNames: %w{partid}, 
-      GetSubjectParts: %w{subject}, 
-      GetSubjectTitles: %w{subject}, 
-      GetTitleBibTex: %w{titleid}, 
-      GetTitleByIdentifier: %w{type value}, 
-      GetTitleEndNote: %w{titleid}, 
-      GetTitleItems: %w{titleid}, 
-      GetTitleMetadata: %w{titleid items}, 
-      GetUnpublishedItems: %w{},      # No params 
-      GetUnpublishedParts: %w{},      # No params 
-      GetUnpublishedTitles: %w{},     # No params 
-      NameCount: %w{startdate enddate}, 
-      NameGetDetail: %w{namebankid name},            # !! Not in list below part of V1, see || criteria
-      NameCountBetweenDates: %w{},                   # !! No documentation provided
-     # NameGetDetailForName: %w{},                   # !! No documentation provided, can't confirm it works
-     # NameGetDetailForNameBankID: %w{},             # !! No documentation provided, can't confirm it works
-      NameList: %w{startrow batchsize stardate enddate},   # part of V1 !! may be problems
-      NameListBetweenDates: %w{}, # !! No documentation provided 
-      NameSearch: %w{name},                                # part of V1 !! may be problems
-      PartSearch: %w{title containerTitle author date volume series issue}, 
+      GetPartMetadata: %w{id idtype names},
+      GetSubjectMetadata: %w{subject pubs},
+      GetTitleMetadata: %w{id idtype items},
+      NameSearch: %w{name},     # part of V1 !! may be problems
+      PageSearch: %w{itemid text},
+      PublicationSearch: %w{searchterm searchtype page},
+      PublicationSearchAdvanced: %w{title titleop authorname year subject language collection text textop page},
       SubjectSearch: %w{subject}, 
-      TitleSearchSimple: %w{title}, 
     }
 
+    # See also comments above
     REQUIRED_PARAMS = {
+      'authorname' => [:AuthorSearch],
       'name' => [:AuthorSearch, :NameSearch],
       'creatorid' => [:GetAuthorParts, :GetAuthorTitles],
       'type' => [:GetItemByIdentifier, :GetPartByIdentifier, :GetTitleByIdentifier],
       'value' => [:GetItemByIdentifier, :GetPartByIdentifier, :GetTitleByIdentifier],
       'itemid' => [:GetItemMetadata, :GetItemPages, :GetItemParts],
       'pageid' => [:GetPageMetadata, :GetPageNames, :GetPageOcrText, :GetPartBibTeX],
-      'partid'  => [:GetPartBibTeX, :GetPartEndNote, :GetPartMetadata, :GetPartNames],
+      'partid' => [:GetPartBibTeX, :GetPartEndNote, :GetPartMetadata, :GetPartNames],
       'subject' => [:GetSubjectParts, :GetSubjectTitles, :SubjectSearch],
       'titleid' => [:GetTitleBibTex, :GetTitleEndNote, :GetTitleItems, :GetTitleMetadata],
       'title' => [:TitleSearchSimple] 
@@ -132,9 +110,10 @@ class RubyBHL
     end
 
     def valid?
-      raise API_KEY_MESSAGE if @api_key.nil?
-      raise "Method #{@method} not recognized." if @method && !RubyBHL::Request::METHODS.keys.include?(@method)
-      raise "Format #{@format} not recognized." if @format && !%w{json xml}.include?(@format)
+      raise(RubyBHL::Error, API_KEY_MESSAGE) if @api_key.nil?
+      raise(RubyBHL::Error, "Method #{@method} not recognized.") if @method && !RubyBHL::Request::METHODS.keys.include?(@method)
+
+      raise(RubyBHL::Error, "Format #{@format} not recognized.") if @format && !%w{json xml}.include?(@format)
 
       !@method.nil? && !@format.nil? && params_are_supported? && has_required_params?
     end
@@ -144,7 +123,7 @@ class RubyBHL
     def build_url
       @search_url = SEARCH_BASE + 'op=' + @method.to_s +
         @params.keys.sort{|a,b| a.to_s <=> b.to_s}.collect{|k| "&#{k}=#{@params[k].to_s.gsub(/\s/, "+")}"}.join +
-      '&format=' + @format + '&apikey=' + @api_key
+        '&format=' + @format + '&apikey=' + @api_key
     end
 
   end

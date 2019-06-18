@@ -6,9 +6,7 @@ Dotenv.load
 
 require 'rubyBHL' 
 require 'awesome_print'
-# require 'rspec'
-# require 'rspec/mocks'
-# require 'socket'
+require 'byebug'
 
 API_KEY_MESSAGE =  "Add a key to ~/.bhl_api_key and/or ensure ENV['BHL_API_KEY'] is set for this test to pass or be tested."
 

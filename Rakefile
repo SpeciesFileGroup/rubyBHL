@@ -6,4 +6,3 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
 end
 
 task :default => :spec
-   

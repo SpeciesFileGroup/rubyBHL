@@ -10,7 +10,7 @@ class RubyBHL
     # one column per attribute, 
     # 1 if keyword was found, 0 if not.
     def self.taxon_attribute_table(taxon_name = nil, attributes = [], page_limit = 10)
-      name_search = RubyBHL::Request.new(method: :NameGetDetail , params: {'name' => taxon_name}) 
+      name_search = RubyBHL::Request.new(method: :GetNameMetadata, params: {'name' => taxon_name})
 
       json = name_search.response.json
       pages = pages_from_result(json['Result'])
@@ -19,7 +19,8 @@ class RubyBHL
         csv << [*attributes, 'PageID']
         pages[0..page_limit - 1].each do |p|
           result = []
-          ocr = RubyBHL::Request.new(method: :GetPageOcrText, params: {'pageid' => p['PageID']}).response.json['Result']
+          ocr = RubyBHL::Request.new(method: :GetPageMetadata, params: {'pageid' => p['PageID'], 'ocr' => 't'}, ).response.json['Result']
+          ocr = ocr.first['OcrText']
           result += bit_vector_for_keywords(ocr, attributes)
           result.push p['PageID']
           csv << [*result]
@@ -36,7 +37,7 @@ class RubyBHL
     # TODO: Use JSON fu to make this simpler
     def self.pages_from_result(results = [])
       pages = []
-      results['Titles'].each do |t|
+      results.first['Titles'].each do |t|
         t['Items'].each do |i|
           pages += i['Pages']
         end
