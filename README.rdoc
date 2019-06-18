@@ -1,6 +1,6 @@
 = RubyBHL
 
-A simple Ruby wrapper to {version 2.5.x of the BHL API}[http://www.biodiversitylibrary.org/api2/docs/docs.html]. 
+A simple Ruby wrapper to {version 3.x of the BHL API}[https://www.biodiversitylibrary.org/docs/api3.html].
 
 == Really quick start 
 
