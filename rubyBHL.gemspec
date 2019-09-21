@@ -9,7 +9,7 @@ Gem::Specification.new do |gem|
   gem.description = %q{RubyBHL is a simple but flexible request/response wrapper for the Biodiversity Heritage Libary API.  It includes (some) validation for request formatting.  It has excellent unit-test coverage.}
   gem.summary = %q{RubyBHL is a simple request/response wrapper for the Biodiversity Heritage Libary API.}
   gem.homepage = 'http://github.com/SpeciesFileGroup/rubyBHL'
-  gem.license = "University of Illinois/NCSA Open Source License (NCSA)"
+  gem.license = "NCSA"
 
   gem.files         = `git ls-files`.split($/) # be sure to commit!
   gem.test_files =  gem.files.grep(%r{^(spec|features)/}) 
